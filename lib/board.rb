@@ -25,6 +25,10 @@ class Board
       }
   end
 
+  def valid_coordinate?(coordinate)
+    @cells.has_key?(coordinate)
+  end
+
 
 
 
