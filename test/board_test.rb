@@ -14,6 +14,9 @@ class BoardTest < Minitest::Test
   def test_it_has_required_number_of_cells
     board = Board.new
     assert_equal 16, board.cells.count
+    board2 = Board.new(8)
+    require "pry"; binding.pry
+    assert_equal 64, board2.cells.count
   end
 
   def test_cells_are_a_hash
