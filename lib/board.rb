@@ -29,6 +29,23 @@ class Board
     @cells.has_key?(coordinate)
   end
 
+  def valid_placement?(ship, coordinates)
+    return false if ship.length != coordinates.length
+    return false if !consecutive?(coordinates)
+
+    true
+  end
+
+  def consecutive?(coordinates)
+    #checking numbers consecutive
+    if coordinates.each_cons(2).all? {|c1,c2| c1[1].to_i == c2[1].to_i - 1}
+    #covert letters to .ord and all equal
+      if coordinates.each_cons(2).all? {|c1,c2| c1[0].ord == c2[0].ord}
+      true
+      end
+    end
+  end
+
 
 
 
