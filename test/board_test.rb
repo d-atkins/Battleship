@@ -89,6 +89,13 @@ class BoardTest < Minitest::Test
     submarine = Ship.new("Submarine", 2)
     board.place(cruiser, ["A1", "A2", "A3"])
 
-    assert board.valid_placement?(submarine, ["A1", "B1"])
+    assert_equal false, board.valid_placement?(submarine, ["A1", "B1"])
   end
 end
+
+#generate_cells
+#generate_coordinates
+#overlap?
+#consecutive_coordinates?
+#consecutive_numbers?
+#same_numbers?
