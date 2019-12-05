@@ -58,7 +58,10 @@ class Board
     numbers.each_cons(2).all? { |num1, num2| num1 == num2}
   end
 
-  def place
+  def place(ship, coordinates)
+    coordinates.each do |coordinate|
+      @cells[coordinate].place_ship(ship)
+    end
   end
 
 end
