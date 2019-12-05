@@ -15,7 +15,6 @@ class BoardTest < Minitest::Test
     board = Board.new
     assert_equal 16, board.cells.count
     board2 = Board.new(8)
-    require "pry"; binding.pry
     assert_equal 64, board2.cells.count
   end
 
@@ -49,7 +48,6 @@ class BoardTest < Minitest::Test
   end
 
   def test_coordinates_are_consecutive
-    # skip
     board = Board.new
     cruiser = Ship.new("Cruiser", 3)
     submarine = Ship.new("Submarine", 2)
