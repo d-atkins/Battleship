@@ -32,30 +32,41 @@ class Board
 
   def valid_placement?(ship, coordinates)
     return false if ship.length != coordinates.length
-    return false if !consecutive?(coordinates)
+    return false if !consecutive_coordinates?(coordinates)
+    return false if overlap?(coordinates)
     true
   end
 
-  def consecutive?(coordinates)
+  def overlap?(coordinates)
+      !(coordinates.all? { |coordinate| @cells[coordinate].empty? })
+  end
+
+  def consecutive_coordinates?(coordinates)
     letter_ords = coordinates.map do |coordinate|
       coordinate[0].ord
     end
     numbers = coordinates.map do |coordinate|
       coordinate[1..coordinate.length - 1].to_i
     end
-    numbers_cons = check_consecutive(numbers)
-    numbers_same = check_same(numbers)
-    letters_cons = check_consecutive(letter_ords)
-    letters_same = check_same(letter_ords)
+    numbers_cons = consecutive_numbers?(numbers)
+    numbers_same = same_numbers?(numbers)
+    letters_cons = consecutive_numbers?(letter_ords)
+    letters_same = same_numbers?(letter_ords)
     (numbers_cons && letters_same)||(numbers_same && letters_cons)
   end
 
-  def check_consecutive(numbers)
+  def consecutive_numbers?(numbers)
     numbers.each_cons(2).all? { |num1, num2| num1 == num2 - 1}
   end
 
-  def check_same(numbers)
+  def same_numbers?(numbers)
     numbers.each_cons(2).all? { |num1, num2| num1 == num2}
+  end
+
+  def place(ship, coordinates)
+    coordinates.each do |coordinate|
+      @cells[coordinate].place_ship(ship)
+    end
   end
 
 end
