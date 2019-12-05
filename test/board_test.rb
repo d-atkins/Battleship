@@ -60,12 +60,26 @@ class BoardTest < Minitest::Test
     assert_equal true,board.valid_placement?(submarine, ["B1", "C1"])
   end
 
-  def test_diagonal_placement_invalid
+  def test_diagonal_placement_is_invalid
     board = Board.new
     cruiser = Ship.new("Cruiser", 3)
     submarine = Ship.new("Submarine", 2)
 
     assert_equal false, board.valid_placement?(cruiser, ["A1", "B2","C3"])
     assert_equal false,board.valid_placement?(submarine, ["C3", "D4"])
+  end
+
+  def test_it_can_place_ship
+    board = Board.new
+    cruiser = Ship.new("Cruiser", 3)
+    board.place(cruiser, ["A1", "A2", "A3"])
+    cell_1 = board.cells["A1"]
+    cell_2 = board.cells["A2"]
+    cell_3 = board.cells["A3"]
+
+    assert_equal cruiser, cell_1.ship
+    assert_equal cruiser, cell_2.ship
+    assert_equal cruiser, cell_3.ship
+    assert cell_3.ship == cell_2.ship
   end
 end
