@@ -58,4 +58,7 @@ class Board
     numbers.each_cons(2).all? { |num1, num2| num1 == num2}
   end
 
+  def place
+  end
+
 end
