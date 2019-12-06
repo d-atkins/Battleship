@@ -74,13 +74,13 @@ class Board
     number = (1..@grid_length).to_a
     letters = ("A"..(64 + @grid_length).chr).to_a
 
-    coors = letters.map |letter|
-      numbers.map |number|
+    coors = letters.map do |letter|
+      numbers.map do |number|
         letter + number.to_s
       end
     end
 
-    
+
   end
 
 end
