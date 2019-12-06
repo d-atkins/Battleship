@@ -1,10 +1,11 @@
 require_relative 'cell'
 
 class Board
-  attr_reader :cells
+  attr_reader :cells, :grid_length
 
   def initialize(size = 4)
     @cells = {}
+    @grid_length = size
     coordinates = generate_coordinates(size)
     generate_cells(coordinates)
   end
@@ -67,6 +68,19 @@ class Board
     coordinates.each do |coordinate|
       @cells[coordinate].place_ship(ship)
     end
+  end
+
+  def render
+    number = (1..@grid_length).to_a
+    letters = ("A"..(64 + @grid_length).chr).to_a
+
+    coors = letters.map |letter|
+      numbers.map |number|
+        letter + number.to_s
+      end
+    end
+
+    
   end
 
 end

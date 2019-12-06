@@ -142,6 +142,15 @@ class BoardTest < Minitest::Test
     assert_equal false, board.same_numbers?([10,12])
   end
 
+  def test_are_numbers_same #17
+    board = Board.new
+    cruiser = Ship.new("Cruiser", 3)
+    board.place(cruiser, ["A1", "A2", "A3"])
+
+    assert_equal "  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n", board.render
+    # assert_equal "  1 2 3 4 \nA S S S . \nB . . . . \nC . . . . \nD . . . . \n", board.render(true)
+
+  end
 
 end
 
