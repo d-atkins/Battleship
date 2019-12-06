@@ -71,7 +71,7 @@ class Board
   end
 
   def render
-    number = (1..@grid_length).to_a
+    numbers = (1..@grid_length).to_a
     letters = ("A"..(64 + @grid_length).chr).to_a
 
     coors = letters.map do |letter|
