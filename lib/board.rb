@@ -12,8 +12,7 @@ class Board
 
   def generate_coordinates(size)
     coordinates = []
-    letter_range = "A".."Z"
-    letter_range = "A"..letter_range.to_a[size - 1]
+    letter_range = ("A"..(64 + size).chr)
     num_range = 1..size
     letter_range.each do |letter|
       num_range.each { |num| coordinates << "#{letter}#{num}" }
@@ -71,7 +70,7 @@ class Board
   end
 
   def render(reveal = false)
-    # generates array of @cells keys
+
     board_string = ""
     numbers = (1..@grid_length).to_a
     letters = ("A"..(64 + @grid_length).chr).to_a
@@ -81,7 +80,7 @@ class Board
         letter + number.to_s
       end
     end
-    # generates board visually
+
     board_string << "  " + ([*1..@grid_length].join(' ')) + " \n"
     coors.each do |rows|
       board_string << rows[0][0] + " "
