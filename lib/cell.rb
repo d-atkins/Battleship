@@ -1,5 +1,4 @@
 class Cell
-
   attr_reader :coordinate, :ship
 
   def initialize(coordinate)
@@ -31,6 +30,5 @@ class Cell
     return "X" if @ship.sunk?
     return "H" if @fired_upon
   end
-
 
 end
