@@ -60,7 +60,7 @@ class HumanPlayer
   end
 
   def print_board
-    puts ""
+    puts "==============PLAYER BOARD=============="
     puts @board.render(true)
     puts ""
   end
@@ -68,6 +68,20 @@ class HumanPlayer
   def press_enter_to_continue
     puts "Press enter to continue..."
     gets.chomp
+  end
+
+  def send_fire
+    puts "Enter the coordinate for your shot:"
+    user_coor = gets.chomp
+    until @board.valid_coordinate?(user_coor)
+      puts "Please enter a valid coordinate: "
+      user_coor = gets.chomp
+    end
+    user_coor
+  end
+
+  def receive_fire(coordinate)
+    @board.cells[coordinate].fire_upon
   end
 
 end
