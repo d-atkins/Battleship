@@ -6,16 +6,16 @@ class Board
   def initialize(size = 4)
     @cells = {}
     @grid_length = size
-    coordinates = generate_coordinates(size)
+    coordinates = generate_nested_coordinates(size).flatten
     generate_cells(coordinates)
   end
 
-  def generate_coordinates(size)
+  def generate_nested_coordinates(size)
     coordinates = []
     letter_range = ("A"..(64 + size).chr)
-    num_range = 1..size
-    letter_range.each do |letter|
-      num_range.each { |num| coordinates << "#{letter}#{num}" }
+    number_range = 1..size
+    coordinates = letter_range.map do |letter|
+      number_range.map { |number| "#{letter}#{number}" }
     end
     coordinates
   end
@@ -42,9 +42,7 @@ class Board
   end
 
   def consecutive_coordinates?(coordinates)
-    letter_ords = coordinates.map do |coordinate|
-      coordinate[0].ord
-    end
+    letter_ords = coordinates.map { |coordinate| coordinate[0].ord }
     numbers = coordinates.map do |coordinate|
       coordinate[1..coordinate.length - 1].to_i
     end
@@ -70,19 +68,10 @@ class Board
   end
 
   def render(reveal = false)
-
     board_string = ""
-    numbers = (1..@grid_length).to_a
-    letters = ("A"..(64 + @grid_length).chr).to_a
-
-    coors = letters.map do |letter|
-      numbers.map do |number|
-        letter + number.to_s
-      end
-    end
-
+    nested_coordinates = generate_nested_coordinates(@grid_length)
     board_string << "  " + ([*1..@grid_length].join(' ')) + " \n"
-    coors.each do |rows|
+    nested_coordinates.each do |rows|
       board_string << rows[0][0] + " "
       rows.each do |cell|
         board_string << @cells[cell].render(reveal) + " "
@@ -91,7 +80,5 @@ class Board
     end
     board_string
   end
-
-
 
 end
