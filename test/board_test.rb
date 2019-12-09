@@ -14,8 +14,8 @@ class BoardTest < Minitest::Test
   def test_it_has_required_number_of_cells #2
     board = Board.new
     assert_equal 16, board.cells.count
-    # board2 = Board.new(8)
-    # assert_equal 64, board2.cells.count
+    board2 = Board.new(8)
+    assert_equal 64, board2.cells.count
   end
 
   def test_cells_are_a_hash #3
@@ -100,11 +100,11 @@ class BoardTest < Minitest::Test
     assert_nil board.cells["H9"]
   end
 
-  def test_it_can_generate_coordinates #12
+  def test_it_can_generate_nested_coordinates #12
     board = Board.new
 
-    assert_equal ["A1"], board.generate_coordinates(1)
-    assert_equal ["A1","A2","B1","B2"], board.generate_coordinates(2)
+    assert_equal [["A1"]], board.generate_nested_coordinates(1)
+    assert_equal [["A1","A2"],["B1","B2"]], board.generate_nested_coordinates(2)
   end
 
   def test_it_can_check_if_coordinates_overlap #13
