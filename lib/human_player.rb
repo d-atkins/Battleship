@@ -21,6 +21,7 @@ class HumanPlayer
     @ships.each do |ship|
       ship_placement(ship)
     end
+    press_enter_to_continue
   end
 
   def initial_instructions
@@ -48,7 +49,7 @@ class HumanPlayer
       end
       if !(@board.valid_placement?(ship, user_coordinates))
         system("clear")
-        print "Those are invalid coordinates. Please try again:"
+        print "#{user_coordinates} are invalid coordinates. Please try again:"
         print_board
       end
     end
