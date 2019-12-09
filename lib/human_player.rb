@@ -36,7 +36,7 @@ class HumanPlayer
     user_coordinates = []
     while !(@board.valid_placement?(ship, user_coordinates))
       user_coordinates = []
-      1..ship.length.times do |n|
+      (ship.length).times do |n|
         puts "Enter coordinate number #{n + 1}: "
         user_input = gets.chomp.upcase
         while !(@board.valid_coordinate?(user_input))
