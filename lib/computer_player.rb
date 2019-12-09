@@ -69,7 +69,7 @@ class ComputerPlayer
   end
 
   def print_board
-    puts ""
+    puts "=============COMPUTER BOARD============="
     puts @board.render
     puts ""
   end
