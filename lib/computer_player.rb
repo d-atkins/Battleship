@@ -74,4 +74,12 @@ class ComputerPlayer
     puts ""
   end
 
+  def receive_fire(coordinate)
+    @board.cells[coordinate].fire_upon
+  end
+
+  def send_fire
+    @coordinate_guesses.delete(@coordinate_guesses.sample)
+  end
+
 end
