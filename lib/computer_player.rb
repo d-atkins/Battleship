@@ -4,7 +4,7 @@ require_relative 'board'
 class ComputerPlayer
   attr_reader :board, :ships
 
-  def initialize
+  def reset
     @board = Board.new
     cruiser = Ship.new("Cruiser", 3)
     submarine = Ship.new("Submarine", 2)
@@ -13,6 +13,7 @@ class ComputerPlayer
   end
 
   def get_ready
+    reset
     initial_instructions
     @ships.each do |ship|
       ship_placement(ship)
@@ -27,7 +28,6 @@ class ComputerPlayer
   def ship_placement(ship)
     length = ship.length
     coin_toss = [1,2].sample
-
     if coin_toss == 1
       computer_array = horizontal_array_maker(ship, length)
     else
@@ -69,15 +69,16 @@ class ComputerPlayer
     computer_array
   end
 
-  def print_board
+  def print_board(game_over = false)
     puts "=============COMPUTER BOARD============="
-    puts @board.render
+    puts @board.render if !game_over
+    puts @board.render(true) if game_over
     puts ""
   end
 
   def receive_fire(coordinate)
     @board.cells[coordinate].fire_upon
-    puts "HUMAN shot at #{coordinate}"
+    print "HUMAN shot at #{coordinate}... "
     sleep(1)
 
   end
