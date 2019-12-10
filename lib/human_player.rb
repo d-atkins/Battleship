@@ -25,6 +25,7 @@ class HumanPlayer
   end
 
   def initial_instructions
+    print_board
     puts "You now need to lay out your two ships."
     puts "The Cruiser is three units long and the Submarine is two units long."
     press_enter_to_continue
@@ -72,7 +73,7 @@ class HumanPlayer
 
   def send_fire
     puts "Enter the coordinate for your shot:"
-    user_coor = gets.chomp
+    user_coor = gets.chomp.upcase
     until @board.valid_coordinate?(user_coor)
       puts "Please enter a valid coordinate: "
       user_coor = gets.chomp
