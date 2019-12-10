@@ -16,18 +16,7 @@ class Game
 
   def main_menu
     system("clear")
-    puts '888             888   888   888                888     d8b'
-    puts '888             888   888   888                888     Y8P'
-    puts '888             888   888   888                888                 '
-    puts '88888b.  8888b. 888888888888888 .d88b. .d8888b 88888b. 88888888b.  '
-    puts '888 "88b    "88b888   888   888d8P  Y8b88K     888 "88b888888 "88b '
-    puts '888  888.d888888888   888   88888888888"Y8888b.888  888888888  888 '
-    puts '888 d88P888  888Y88b. Y88b. 888Y8b.         X88888  888888888 d88P '
-    puts '88888P" "Y888888 "Y888 "Y888888 "Y8888  88888P 888  88888888888P"  '
-    puts '                                                          888      '
-    puts '                                                          888      '
-    puts '                                                          888   '
-    puts ""
+    print_radical_title
     puts "Welcome to BATTLESHIP!"
     puts ""
     puts "Enter 'p' to play. Enter 'q' to quit."
@@ -81,6 +70,9 @@ class Game
         choice = main_menu
       end
     end
+    system("clear")
+    puts "                            Thanks for playing!"
+    print_sweet_ship
   end
 
   def print_boards
@@ -93,6 +85,37 @@ class Game
     system('clear')
     @computer.print_board(true)
     @human.print_board
+  end
+
+  def print_radical_title
+    puts ''
+    puts '    888             888   888   888                888     d8b'
+    puts '    888             888   888   888                888     Y8P'
+    puts '    888             888   888   888                888                 '
+    puts '    88888b.  8888b. 888888888888888 .d88b. .d8888b 88888b. 88888888b.  '
+    puts '    888 "88b    "88b888   888   888d8P  Y8b88K     888 "88b888888 "88b '
+    puts '    888  888.d888888888   888   88888888888"Y8888b.888  888888888  888 '
+    puts '    888 d88P888  888Y88b. Y88b. 888Y8b.         X88888  888888888 d88P '
+    puts '    88888P" "Y888888 "Y888 "Y888888 "Y8888  88888P 888  88888888888P"  '
+    puts '                                                              888      '
+    puts '                                                              888      '
+    puts '                                                              888   '
+    puts ""
+  end
+
+  def print_sweet_ship
+    puts ""
+    puts "                                     # #  ( )"
+    puts "                                  ___#_#___|__"
+    puts "                              _  |____________|  _"
+    puts "                       _=====| | |            | | |==== _"
+    puts "                 =====| |.---------------------------. | |===="
+    puts "   <--------------------'   .  .  .  .  .  .  .  .   '--------------/"
+    puts "     \\                                                             /"
+    puts "      \\_______________________________________________WWS_________/"
+    puts "  wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww"
+    puts "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww"
+    puts "   wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww "
   end
 
 end
