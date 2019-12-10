@@ -20,7 +20,8 @@ class ComputerPlayer
   end
 
   def initial_instructions
-    puts "I have laid out my ships on the grid."
+    puts "I am laying out my ships..."
+    sleep(3)
   end
 
   def ship_placement(ship)
@@ -76,6 +77,9 @@ class ComputerPlayer
 
   def receive_fire(coordinate)
     @board.cells[coordinate].fire_upon
+    puts "HUMAN shot at #{coordinate}"
+    sleep(3)
+
   end
 
   def send_fire

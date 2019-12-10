@@ -82,6 +82,9 @@ class HumanPlayer
 
   def receive_fire(coordinate)
     @board.cells[coordinate].fire_upon
+    puts "COMPUTER shot at #{coordinate}"
+    sleep(3)
+
   end
 
 end
