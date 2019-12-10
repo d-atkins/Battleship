@@ -76,7 +76,6 @@ class HumanPlayer
   end
 
   def send_fire
-
     print "Enter the coordinate for your shot: "
     user_coor = gets.chomp.upcase
     until (@board.valid_coordinate?(user_coor) && !@shots.include?(user_coor))
@@ -85,7 +84,7 @@ class HumanPlayer
       else
         print "You have already fired upon #{user_coor}. Try again: "
       end
-      user_coor = gets.chomp
+      user_coor = gets.chomp.upcase
     end
     @shots << user_coor
     user_coor
