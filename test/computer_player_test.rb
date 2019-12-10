@@ -10,6 +10,7 @@ class ComputerPlayerTest < Minitest::Test
     @computer = ComputerPlayer.new
     @cruiser = Ship.new("Cruiser", 3)
     @submarine = Ship.new("Submarine", 2)
+    @computer.reset
   end
   def test_it_exists
     assert_instance_of ComputerPlayer, @computer
@@ -46,17 +47,15 @@ class ComputerPlayerTest < Minitest::Test
   end
 
   def test_it_can_send_fire
-    computer = ComputerPlayer.new
-    cpu_coordinate = computer.send_fire
-    assert_equal true, computer.board.valid_coordinate?(cpu_coordinate)
+    cpu_coordinate = @computer.send_fire
+    assert_equal true, @computer.board.valid_coordinate?(cpu_coordinate)
   end
 
   def test_it_can_receive_fire
-    computer = ComputerPlayer.new
-    assert_equal false, computer.board.cells["B2"].fired_upon?
-    computer.receive_fire("B2")
-    assert_equal true, computer.board.cells["B2"].fired_upon?
-    assert_equal "M", computer.board.cells["B2"].render
+    assert_equal false, @computer.board.cells["B2"].fired_upon?
+    @computer.receive_fire("B2")
+    assert_equal true, @computer.board.cells["B2"].fired_upon?
+    assert_equal "M", @computer.board.cells["B2"].render
   end
 
 end
