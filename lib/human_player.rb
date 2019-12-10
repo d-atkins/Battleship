@@ -4,7 +4,7 @@ require_relative 'board'
 class HumanPlayer
   attr_reader :board, :ships, :shots
 
-  def initialize
+  def reset
     @board = Board.new
     cruiser = Ship.new("Cruiser", 3)
     submarine = Ship.new("Submarine", 2)
@@ -13,8 +13,8 @@ class HumanPlayer
   end
 
   def get_ready
+    reset
     system("clear")
-    puts ""
     initial_instructions
     system("clear")
     print_board
@@ -27,7 +27,9 @@ class HumanPlayer
   def initial_instructions
     print_board
     puts "You now need to lay out your two ships."
+    puts ""
     puts "The Cruiser is three units long and the Submarine is two units long."
+    puts ""
     press_enter_to_continue
   end
 
@@ -38,20 +40,22 @@ class HumanPlayer
     while !(@board.valid_placement?(ship, user_coordinates))
       user_coordinates = []
       (ship.length).times do |n|
-        puts "Enter coordinate number #{n + 1}: "
+        print "Enter coordinate ##{n + 1}: "
         user_input = gets.chomp.upcase
         while !(@board.valid_coordinate?(user_input))
           system("clear")
           print_board
-          puts "#{user_input} is not a valid coordinate, try again: "
+          puts "#{user_input} is not a valid coordinate, try again"
+          print "Enter coordinate ##{n + 1}: "
           user_input = gets.chomp.upcase
         end
         user_coordinates << user_input
       end
       if !(@board.valid_placement?(ship, user_coordinates))
         system("clear")
-        print "#{user_coordinates} are invalid coordinates. Please try again:"
         print_board
+        puts "#{user_coordinates} are invalid coordinates. Please try again."
+        puts ""
       end
     end
     system("clear")
@@ -67,19 +71,19 @@ class HumanPlayer
   end
 
   def press_enter_to_continue
-    puts "Press enter to continue..."
+    print "(press ENTER to continue...)"
     gets.chomp
   end
 
   def send_fire
 
-    puts "Enter the coordinate for your shot:"
+    print "Enter the coordinate for your shot: "
     user_coor = gets.chomp.upcase
     until (@board.valid_coordinate?(user_coor) && !@shots.include?(user_coor))
       if !@board.valid_coordinate?(user_coor)
-        puts "Please enter a valid coordinate: "
+        print "Please enter a valid coordinate: "
       else
-        puts "You have already fired upon #{user_coor}. Try again:"
+        print "You have already fired upon #{user_coor}. Try again: "
       end
       user_coor = gets.chomp
     end
@@ -89,9 +93,8 @@ class HumanPlayer
 
   def receive_fire(coordinate)
     @board.cells[coordinate].fire_upon
-    puts "COMPUTER shot at #{coordinate}"
-    sleep(3)
-
+    print "COMPUTER shot at #{coordinate}... "
+    sleep(2)
   end
 
 end
