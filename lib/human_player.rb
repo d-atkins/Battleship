@@ -43,9 +43,7 @@ class HumanPlayer
         print "Enter coordinate ##{n + 1}: "
         user_input = gets.chomp.upcase
         while !(@board.valid_coordinate?(user_input))
-          system("clear")
-          print_board
-          puts "#{user_input} is not a valid coordinate, try again"
+          puts "ERROR: #{user_input} is not a valid coordinate, try again"
           print "Enter coordinate ##{n + 1}: "
           user_input = gets.chomp.upcase
         end
