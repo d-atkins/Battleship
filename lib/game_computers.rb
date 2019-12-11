@@ -35,10 +35,10 @@ class GameComputers
 
   def feedback(defender, coordinate)
     char = defender.board.cells[coordinate].render
-    print "hit!" if char == "H"
-    print "*miss*" if char == "M"
-    print "!!SUNK!!" if char == "X"
-    # sleep(2)
+    print $hit if char == $H
+    print $miss if char == $M
+    print $sunk if char == $X
+    sleep(0.3)
   end
 
   def game_over?
