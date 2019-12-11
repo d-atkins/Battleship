@@ -6,7 +6,46 @@ class SmartComputer
     @opponent_ships = opponent_ships
   end
 
-  def set_guesses
+  def send_fire
+    suggest_coordinate
+  end
+
+  def suggest_coordinate
+    coordinates = find_groups_with_most_hits.flatten
+    guesses = remove_fired_upon_coordinates(coordinates)
+    guesses.uniq.sample
+  end
+
+  def remove_fired_upon_coordinates(coordinates)
+    guesses = coordinates.find_all do |coordinate|
+      !@opponent_board.cells[coordinate].fired_upon?
+    end
+    guesses
+  end
+
+  def find_groups_with_most_hits
+    guesses = generate_valid_guesses
+    best_guesses = []
+    most_hits = 0
+    guesses.each do |group|
+      this_group_hits = count_hits(group)
+      if this_group_hits > most_hits
+        best_guesses = []
+        best_guesses << group
+        most_hits = this_group_hits
+      elsif this_group_hits == most_hits
+        best_guesses << group
+      end
+    end
+    best_guesses
+  end
+
+  def count_hits(group)
+    group_render = group.map { |coordinate| @opponent_board.cells[coordinate].render }
+    group_render.count("H")
+  end
+
+  def all_guesses
     return_hash = {}
     horizontals = @opponent_board.generate_nested_coordinates(@opponent_board.grid_length)
     verticals = []
@@ -26,11 +65,10 @@ class SmartComputer
 
   def generate_valid_guesses
     alive_ships = @opponent_ships.find_all { |ship| !ship.sunk?}
-    require "pry"; binding.pry
     ship_sizes = alive_ships.map { |ship| ship.length }
     ship_target_size = ship_sizes.min
     valid_guesses = []
-    options = set_guesses
+    options = all_guesses
     options[:horizontal].each do |row|
       valid_guesses << row.each_cons(ship_target_size).find_all do |group|
         no_sunks = group.none? { |coordinate| @opponent_board.cells[coordinate].render == "X"}
@@ -48,6 +86,5 @@ class SmartComputer
       end
     end
     valid_guesses = valid_guesses.flatten(1)
-    require "pry"; binding.pry
   end
 end
