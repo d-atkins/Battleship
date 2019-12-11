@@ -4,16 +4,16 @@ require_relative 'board'
 class HumanPlayer
   attr_reader :board, :ships, :shots
 
-  def reset
-    @board = Board.new
+  def reset(size = 4)
+    @board = Board.new(size)
     cruiser = Ship.new("Cruiser", 3)
     submarine = Ship.new("Submarine", 2)
     @ships = [cruiser, submarine]
     @shots = []
   end
 
-  def get_ready
-    reset
+  def get_ready(size = 4)
+    reset(size)
     system("clear")
     initial_instructions
     system("clear")

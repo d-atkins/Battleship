@@ -4,16 +4,19 @@ require_relative 'board'
 class ComputerPlayer
   attr_reader :board, :ships
 
-  def reset
-    @board = Board.new
+  def reset(size = 4)
+    @board = Board.new(size)
+    carrier = Ship.new("Carrier", 5)
+    battleship = Ship.new("Battleship", 4)
     cruiser = Ship.new("Cruiser", 3)
-    submarine = Ship.new("Submarine", 2)
-    @ships = [cruiser, submarine]
+    submarine = Ship.new("Submarine", 3)
+    destroyer = Ship.new("Destroyer", 2)
+    @ships = [carrier, battleship, cruiser, submarine, destroyer]
     @coordinate_guesses = @board.cells.keys
   end
 
-  def get_ready
-    reset
+  def get_ready(size = 4)
+    reset(size)
     initial_instructions
     @ships.each do |ship|
       ship_placement(ship)
@@ -22,7 +25,7 @@ class ComputerPlayer
 
   def initial_instructions
     puts "I am laying out my ships..."
-    sleep(3)
+    # sleep(3)
   end
 
   def ship_placement(ship)
@@ -79,7 +82,7 @@ class ComputerPlayer
   def receive_fire(coordinate)
     @board.cells[coordinate].fire_upon
     print "HUMAN shot at #{coordinate}... "
-    sleep(1)
+    sleep(0.1)
 
   end
 
