@@ -69,7 +69,7 @@ class HumanPlayer
   end
 
   def press_enter_to_continue
-    print "(press ENTER to continue...)"
+    print "(press "+ $white_bold + "ENTER" + $color_restore + " to continue...)"
     gets.chomp
   end
 

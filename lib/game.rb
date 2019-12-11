@@ -1,6 +1,7 @@
 require './lib/computer_player'
 require './lib/human_player'
 require './lib/smart_computer'
+require_relative 'color_palette'
 
 class Game
   attr_reader :computer, :human, :smart_computer
@@ -19,9 +20,9 @@ class Game
   def main_menu
     system("clear")
     print_radical_title
-    puts "Welcome to BATTLESHIP!"
+    puts "Welcome to " + $white_bold + "BATTLESHIP!" + $color_restore
     puts ""
-    puts "Enter 'p' to play. Enter 'q' to quit."
+    print "Enter 'p' to play. Enter 'q' to quit. "
     user_input = gets.chomp
     user_input.downcase
   end
@@ -35,22 +36,22 @@ class Game
 
   def feedback(defender, coordinate)
     char = defender.board.cells[coordinate].render
-    print "hit!" if char == "H"
-    print "*miss*" if char == "M"
-    print "!!SUNK!!" if char == "X"
+    print $hit if char == $H
+    print $miss if char == $M
+    print $sunk if char == $X
     sleep(2)
   end
 
   def game_over?
     if @human.ships.all?{ |ship| ship.sunk?}
       print_final_boards
-      puts "I won!"
+      puts $red_bold + "I won!" + $color_restore
       @human.press_enter_to_continue
       return true
     end
     if @computer.ships.all? { |ship| ship.sunk? }
       print_final_boards
-      puts "You won!"
+      puts $white_bold + "You won!" + $color_restore
       @human.press_enter_to_continue
       return true
     end
@@ -73,7 +74,8 @@ class Game
       end
     end
     system("clear")
-    puts "                            Thanks for playing!"
+    puts "\n\n"
+    puts $white_bold + "                  T H A N K S   F O R   P L A Y I N G  ! ! !" + $color_restore
     print_sweet_ship
   end
 
@@ -106,7 +108,7 @@ class Game
   end
 
   def print_sweet_ship
-    puts ""
+    puts $cyan + ""
     puts "                                     # #  ( )"
     puts "                                  ___#_#___|__"
     puts "                              _  |____________|  _"
@@ -114,10 +116,12 @@ class Game
     puts "                 =====| |.---------------------------. | |===="
     puts "   <--------------------'   .  .  .  .  .  .  .  .   '--------------/"
     puts "     \\                                                             /"
-    puts "      \\_______________________________________________WWS_________/"
+    puts "      \\_______________________________________________WWW_________/"
     puts "  wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww"
     puts "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww"
     puts "   wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww "
+    puts $color_restore + "\n\n"
+
   end
 
 end
