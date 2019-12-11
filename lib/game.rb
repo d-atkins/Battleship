@@ -1,8 +1,9 @@
 require './lib/computer_player'
 require './lib/human_player'
+require './lib/smart_computer'
 
 class Game
-  attr_reader :computer, :human
+  attr_reader :computer, :human, :smart_computer
 
   def initialize
     @computer = ComputerPlayer.new
@@ -12,6 +13,7 @@ class Game
   def set_up
     @human.get_ready
     @computer.get_ready
+    @smart_computer = SmartComputer.new(@human.board, @human.ships)
   end
 
   def main_menu
@@ -63,7 +65,7 @@ class Game
         until game_over?
           take_turn(@human, @computer)
           break if game_over?
-          take_turn(@computer, @human)
+          take_turn(@smart_computer, @human)
         end
         choice = main_menu
       else
