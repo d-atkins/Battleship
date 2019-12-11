@@ -42,7 +42,7 @@ class SmartComputer
 
   def count_hits(group)
     group_render = group.map { |coordinate| @opponent_board.cells[coordinate].render }
-    group_render.count("H")
+    group_render.count($H)
   end
 
   def all_guesses
@@ -71,17 +71,17 @@ class SmartComputer
     options = all_guesses
     options[:horizontal].each do |row|
       valid_guesses << row.each_cons(ship_target_size).find_all do |group|
-        no_sunks = group.none? { |coordinate| @opponent_board.cells[coordinate].render == "X"}
-        no_misses = group.none? { |coordinate| @opponent_board.cells[coordinate].render == "M"}
-        all_hits = group.all? { |coordinate| @opponent_board.cells[coordinate].render == "H"}
+        no_sunks = group.none? { |coordinate| @opponent_board.cells[coordinate].render == $X}
+        no_misses = group.none? { |coordinate| @opponent_board.cells[coordinate].render == $M}
+        all_hits = group.all? { |coordinate| @opponent_board.cells[coordinate].render == $M}
         no_sunks && no_misses && !all_hits
       end
     end
     options[:vertical].each do |row|
       valid_guesses << row.each_cons(ship_target_size).find_all do |group|
-        no_sunks = group.none? { |coordinate| @opponent_board.cells[coordinate].render == "X"}
-        no_misses = group.none? { |coordinate| @opponent_board.cells[coordinate].render == "M"}
-        all_hits = group.all? { |coordinate| @opponent_board.cells[coordinate].render == "H"}
+        no_sunks = group.none? { |coordinate| @opponent_board.cells[coordinate].render == $X}
+        no_misses = group.none? { |coordinate| @opponent_board.cells[coordinate].render == $M}
+        all_hits = group.all? { |coordinate| @opponent_board.cells[coordinate].render == $H}
         no_sunks && no_misses && !all_hits
       end
     end
