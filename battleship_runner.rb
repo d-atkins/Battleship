@@ -1,6 +1,7 @@
 require "./lib/game"
 require "./lib/game_computers"
 
+system("clear")
 puts "Press 'H' to play, press 'C' to watch CPU vs CPU"
 choice = gets.chomp.capitalize
 if choice == 'H'

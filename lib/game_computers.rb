@@ -38,7 +38,7 @@ class GameComputers
     print $hit if char == $H
     print $miss if char == $M
     print $sunk if char == $X
-    sleep(0.3)
+    sleep(0.1)
   end
 
   def game_over?
