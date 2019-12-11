@@ -74,8 +74,7 @@ class Game
       end
     end
     system("clear")
-    puts "\n\n"
-    puts $white_bold + "                  T H A N K S   F O R   P L A Y I N G  ! ! !" + $color_restore
+    puts $white_bold + "\n\n                  T H A N K S   F O R   P L A Y I N G  ! ! !" + $color_restore
     print_sweet_ship
   end
 
@@ -121,7 +120,6 @@ class Game
     puts "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww"
     puts "   wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww "
     puts $color_restore + "\n\n"
-
   end
 
 end

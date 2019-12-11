@@ -73,7 +73,7 @@ class GameComputers
       end
     end
     system("clear")
-    puts "                            Thanks for playing!"
+    puts $white_bold + "\n\n                  T H A N K S   F O R   P L A Y I N G  ! ! !" + $color_restore
     print_sweet_ship
   end
 
@@ -106,7 +106,7 @@ class GameComputers
   end
 
   def print_sweet_ship
-    puts ""
+    puts $cyan + ""
     puts "                                     # #  ( )"
     puts "                                  ___#_#___|__"
     puts "                              _  |____________|  _"
@@ -114,10 +114,11 @@ class GameComputers
     puts "                 =====| |.---------------------------. | |===="
     puts "   <--------------------'   .  .  .  .  .  .  .  .   '--------------/"
     puts "     \\                                                             /"
-    puts "      \\_______________________________________________WWS_________/"
+    puts "      \\_______________________________________________WWW_________/"
     puts "  wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww"
     puts "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww"
     puts "   wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww "
+    puts $color_restore + "\n\n"
   end
 
 end
