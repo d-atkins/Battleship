@@ -73,7 +73,7 @@ class SmartComputer
       valid_guesses << row.each_cons(ship_target_size).find_all do |group|
         no_sunks = group.none? { |coordinate| @opponent_board.cells[coordinate].render == $X}
         no_misses = group.none? { |coordinate| @opponent_board.cells[coordinate].render == $M}
-        all_hits = group.all? { |coordinate| @opponent_board.cells[coordinate].render == $M}
+        all_hits = group.all? { |coordinate| @opponent_board.cells[coordinate].render == $H}
         no_sunks && no_misses && !all_hits
       end
     end
