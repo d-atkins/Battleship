@@ -19,9 +19,10 @@ class SmartComputerTest < Minitest::Test
 
   def test_board
     @smart_cpu.opponent_board.place(@cruiser, ["B2", "C2", "D2"])
-    @smart_cpu.opponent_board.place(@submarine, ["A3", "A4"])
+    @smart_cpu.opponent_board.place(@submarine, ["C1", "D1"])
     @smart_cpu.opponent_board.cells["C2"].fire_upon
     @smart_cpu.opponent_board.cells["C3"].fire_upon
+    @smart_cpu.opponent_board.cells["C1"].fire_upon
     @smart_cpu.send_fire
   end
 
