@@ -81,5 +81,4 @@ class CellTest < Minitest::Test
     assert_equal $X, cell_2.render
   end
 
-
 end
