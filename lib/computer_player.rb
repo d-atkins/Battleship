@@ -29,8 +29,9 @@ class ComputerPlayer
     @ships = [cruiser, destroyer]
   end
 
-  def set_custom_board
-
+  def set_custom(size, ships)
+    @size = size
+    @ships = ships
   end
 
   def reset
