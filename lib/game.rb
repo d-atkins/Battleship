@@ -7,15 +7,16 @@ class Game
   attr_reader :computer, :human, :smart_computer, :game_speed, :size, :mode
 
   def initialize
-    @computer = ComputerPlayer.new
-    @human = HumanPlayer.new
+    @computer = ComputerPlayer.new("CPU")
+    @human = HumanPlayer.new("HUMAN")
     @game_speed = 0.2
     @size = 4
   end
 
   def set_options
     puts ""
-    print "Enter 'd' for default (4x4), 'c' for classic (10x10), 'u' for custom board:"
+    print "Enter 'd' for default (4x4), 'c' for classic (10x10),"\
+      " 'u' for custom board:"
     choice = gets.chomp.downcase
     until (choice == 'd' || choice == 'c' || choice == 'u')
       choice = gets.chomp.downcase
@@ -26,8 +27,9 @@ class Game
 
   def set_up
     @human.get_ready
-    @computer.get_ready
     @smart_computer = SmartComputer.new(@human.board, @human.ships)
+    smart_mode
+    @computer.get_ready
   end
 
   def set_default
@@ -43,11 +45,15 @@ class Game
   end
 
   def set_human_to_computer
-    @human = ComputerPlayer.new
+    @human = ComputerPlayer.new("CPU 2")
   end
 
   def set_human
-    @human = HumanPlayer.new
+    @human = HumanPlayer.new("HUMAN")
+  end
+
+  def smart_mode
+    @computer.smart_ai = @smart_computer
   end
 
   def main_menu
@@ -72,6 +78,7 @@ class Game
   def take_turn(attacker, defender)
     print_boards
     coordinate = attacker.send_fire
+    sleep(@game_speed)
     defender.receive_fire(coordinate)
     feedback(defender, coordinate)
   end
@@ -87,13 +94,13 @@ class Game
   def game_over?
     if @human.ships.all?{ |ship| ship.sunk?}
       print_final_boards
-      puts $red_bold + "I won!" + $color_restore
+      puts $red_bold + "#{@computer.name} won!" + $color_restore
       @human.press_enter_to_continue
       return true
     end
     if @computer.ships.all? { |ship| ship.sunk? }
       print_final_boards
-      puts $white_bold + "You won!" + $color_restore
+      puts $white_bold + "#{@human.name} won!" + $color_restore
       @human.press_enter_to_continue
       return true
     end
@@ -110,7 +117,7 @@ class Game
         until game_over?
           take_turn(@human, @computer)
           break if game_over?
-          take_turn(@smart_computer, @human)
+          take_turn(@computer, @human) #changed from @smart_computer
         end
         choice = main_menu
       else
@@ -118,7 +125,8 @@ class Game
       end
     end
     system("clear")
-    puts $white_bold + "\n\n                  T H A N K S   F O R   P L A Y I N G  ! ! !" + $color_restore
+    puts $white_bold + "\n\n                  T H A N K S   F O R "\
+    "  P L A Y I N G  ! ! !" + $color_restore
     print_sweet_ship
   end
 
