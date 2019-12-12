@@ -62,7 +62,7 @@ class HumanPlayer
 
   def initial_instructions
     print_board
-    puts "You now need to lay out your two ships."
+    puts "You now need to lay out your ships."
     puts ""
     @ships.each do |ship|
       puts "The #{ship.name} is #{ship.length} units long."
