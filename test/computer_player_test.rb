@@ -12,6 +12,7 @@ class ComputerPlayerTest < Minitest::Test
     @submarine = Ship.new("Submarine", 2)
     @computer.reset
   end
+
   def test_it_exists
     assert_instance_of ComputerPlayer, @computer
   end

@@ -2,14 +2,39 @@ require_relative 'ship'
 require_relative 'board'
 
 class HumanPlayer
-  attr_reader :board, :ships, :shots
+  attr_reader :board, :ships, :shots, :size
+
+  def initialize(size = 4)
+    @board = Board.new(size)
+    cruiser = Ship.new("Cruiser", 3)
+    destroyer = Ship.new("Destroyer", 2)
+    @ships = [cruiser, destroyer]
+    @size = 4
+  end
+
+  def set_classic
+    carrier = Ship.new("Carrier", 5)
+    battleship = Ship.new("Battleship", 4)
+    cruiser = Ship.new("Cruiser", 3)
+    submarine = Ship.new("Submarine", 3)
+    destroyer = Ship.new("Destroyer", 2)
+    @ships = [carrier, battleship, cruiser, submarine, destroyer]
+    @size = 10
+  end
 
   def reset
-    @board = Board.new
-    cruiser = Ship.new("Cruiser", 3)
-    submarine = Ship.new("Submarine", 2)
-    @ships = [cruiser, submarine]
+    @board = Board.new(@size)
+    refresh_ships
     @shots = []
+  end
+
+  def refresh_ships
+    @ships = @ships.map do |ship|
+      name = ship.name
+      length = ship.length
+      ship = Ship.new(name, length)
+      ship
+    end
   end
 
   def get_ready
@@ -28,7 +53,9 @@ class HumanPlayer
     print_board
     puts "You now need to lay out your two ships."
     puts ""
-    puts "The Cruiser is three units long and the Submarine is two units long."
+    @ships.each do |ship|
+      puts "The #{ship.name} is #{ship.length} units long."
+    end
     puts ""
     press_enter_to_continue
   end
@@ -69,7 +96,7 @@ class HumanPlayer
   end
 
   def press_enter_to_continue
-    print "(press ENTER to continue...)"
+    print "(press "+ $white_bold + "ENTER" + $color_restore + " to continue...)"
     gets.chomp
   end
 

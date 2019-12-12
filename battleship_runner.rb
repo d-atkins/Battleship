@@ -1,4 +1,3 @@
 require "./lib/game"
 
-game = Game.new
-game.run
+Game.new

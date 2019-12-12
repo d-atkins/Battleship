@@ -1,27 +1,93 @@
 require './lib/computer_player'
 require './lib/human_player'
+require './lib/smart_computer'
+require_relative 'color_palette'
 
 class Game
-  attr_reader :computer, :human
+  attr_reader :computer, :human, :smart_computer, :game_speed, :size, :mode
 
   def initialize
     @computer = ComputerPlayer.new
     @human = HumanPlayer.new
+    @game_speed = 0.01
+    @size = 4
+    @mode = 'd'
+    run
+  end
+
+  def set_options
+    puts ""
+    puts "Enter 'd' for default (4x4)."
+    puts "Enter 'c' for classic (10x10)."
+    print "Enter 'u' for custom board:"
+    choice = gets.chomp.downcase
+    until (choice == 'd' || choice == 'c' || choice == 'u')
+      choice = gets.chomp.downcase
+    end
+    if choice == 'd'
+      set_default
+      @mode = 'd'
+    end
+    if choice == 'c'
+      set_classic
+      @mode = 'c'
+    end
+
   end
 
   def set_up
     @human.get_ready
     @computer.get_ready
+    @smart_computer = SmartComputer.new(@human.board, @human.ships)
+  end
+
+  def set_default
+    @size = 4
+    @computer = ComputerPlayer.new
+    @human = HumanPlayer.new
+  end
+
+  def set_classic
+    @size = 10
+    @computer.set_classic
+    @human.set_classic
+  end
+
+  def set_human_to_computer
+    @human = ComputerPlayer.new(@size)
+    @human.set_classic if @mode == 'c'
+  end
+
+  def set_human
+    size = @human.size
+    @human = HumanPlayer.new(size)
+    @human.set_classic if @mode == 'c'
   end
 
   def main_menu
     system("clear")
     print_radical_title
-    puts "Welcome to BATTLESHIP!"
+    puts "Welcome to " + $white_bold + "BATTLESHIP!" + $color_restore
     puts ""
-    puts "Enter 'p' to play. Enter 'q' to quit."
+    puts "Enter 'p' to play."
+    puts "Enter 'c' to play CPU war."
+    puts "Enter 'o' for options."
+    print "Enter 'q' to quit:"
     user_input = gets.chomp
     user_input.downcase
+    if user_input == "o"
+      set_options
+      return 'o'
+    end
+    if user_input == 'c'
+        set_human_to_computer
+      return 'p'
+    end
+    if user_input == 'p'
+        set_human
+      return 'p'
+    end
+    user_input
   end
 
   def take_turn(attacker, defender)
@@ -33,22 +99,22 @@ class Game
 
   def feedback(defender, coordinate)
     char = defender.board.cells[coordinate].render
-    print "hit!" if char == "H"
-    print "*miss*" if char == "M"
-    print "!!SUNK!!" if char == "X"
-    sleep(2)
+    print $hit if char == $H
+    print $miss if char == $M
+    print $sunk if char == $X
+    sleep(@game_speed)
   end
 
   def game_over?
     if @human.ships.all?{ |ship| ship.sunk?}
       print_final_boards
-      puts "I won!"
+      puts $red_bold + "I won!" + $color_restore
       @human.press_enter_to_continue
       return true
     end
     if @computer.ships.all? { |ship| ship.sunk? }
       print_final_boards
-      puts "You won!"
+      puts $white_bold + "You won!" + $color_restore
       @human.press_enter_to_continue
       return true
     end
@@ -63,7 +129,7 @@ class Game
         until game_over?
           take_turn(@human, @computer)
           break if game_over?
-          take_turn(@computer, @human)
+          take_turn(@smart_computer, @human)
         end
         choice = main_menu
       else
@@ -71,7 +137,7 @@ class Game
       end
     end
     system("clear")
-    puts "                            Thanks for playing!"
+    puts $white_bold + "\n\n                  T H A N K S   F O R   P L A Y I N G  ! ! !" + $color_restore
     print_sweet_ship
   end
 
@@ -104,7 +170,7 @@ class Game
   end
 
   def print_sweet_ship
-    puts ""
+    puts $cyan + ""
     puts "                                     # #  ( )"
     puts "                                  ___#_#___|__"
     puts "                              _  |____________|  _"
@@ -112,10 +178,11 @@ class Game
     puts "                 =====| |.---------------------------. | |===="
     puts "   <--------------------'   .  .  .  .  .  .  .  .   '--------------/"
     puts "     \\                                                             /"
-    puts "      \\_______________________________________________WWS_________/"
+    puts "      \\_______________________________________________WWW_________/"
     puts "  wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww"
     puts "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww"
     puts "   wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww "
+    puts $color_restore + "\n\n"
   end
 
 end

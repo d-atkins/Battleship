@@ -150,7 +150,7 @@ class BoardTest < Minitest::Test
       "  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n"
     assert_equal expected, board.render
     expected =
-      "  1 2 3 4 \nA S S S . \nB . . . . \nC . . . . \nD . . . . \n"
+      "  1 2 3 4 \nA #{$S} #{$S} #{$S} . \nB . . . . \nC . . . . \nD . . . . \n"
     assert_equal expected, board.render(true)
   end
 

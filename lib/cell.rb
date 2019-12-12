@@ -1,3 +1,5 @@
+require_relative 'color_palette'
+
 class Cell
   attr_reader :coordinate, :ship
 
@@ -24,11 +26,11 @@ class Cell
   end
 
   def render(reveal = false)
-    return "S" if (reveal && !@fired_upon && !@ship.nil?)
+    return $S if (reveal && !@fired_upon && !@ship.nil?)
     return "." if !@fired_upon
-    return "M" if @ship.nil? && @fired_upon
-    return "X" if @ship.sunk?
-    return "H" if @fired_upon
+    return $M if @ship.nil? && @fired_upon
+    return $X if @ship.sunk?
+    return $H if @fired_upon
   end
 
 end
