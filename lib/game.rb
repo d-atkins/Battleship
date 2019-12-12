@@ -5,9 +5,14 @@ require './lib/ship'
 require_relative 'color_palette'
 
 class Game
+  attr_reader :smart_mode
+
   def initialize
     @computer = ComputerPlayer.new("CPU")
     @human = HumanPlayer.new("PLAYER")
+    @smart_computer = SmartComputer.new(@human.board, @human.ships)
+    @smart_computer2 = SmartComputer.new(@computer.board, @computer.ships)
+    @smart_mode = true
     @game_speed = 0.2
   end
 
@@ -34,13 +39,22 @@ class Game
     @game_speed = 0.3 if choice == '3'
     @game_speed = 0.06 if choice == '4'
     @game_speed = 0 if choice == '!'
+    print "\nSmart CPU? (y/n): "
+    choice = gets.chomp.downcase
+    until (choice.length == 1 && "yn".include?(choice))
+      choice = gets.chomp.downcase
+    end
+    @smart_mode = true if choice == 'y'
+    @smart_mode = false if choice == 'n'
   end
 
   def set_up
     @human.get_ready
     @smart_computer = SmartComputer.new(@human.board, @human.ships)
-    smart_mode_on
+    smart_mode_on(@computer, @smart_computer) if @smart_mode
+    smart_mode_off(@computer) if !@smart_mode
     @computer.get_ready
+    @smart_computer2 = SmartComputer.new(@computer.board, @computer.ships)
   end
 
   def set_default
@@ -103,12 +117,16 @@ class Game
     @human = HumanPlayer.new("PLAYER")
   end
 
-  def smart_mode_on
-    @computer.smart_ai = @smart_computer
+  def smart_mode_on(player, ai)
+    player.smart_ai = ai
+    player.name = "Smart CPU" if player.name == "CPU"
+    player.name = "Smart CPU2" if player.name == "CPU2"
   end
 
-  def smart_mode_off
-    @computer.smart_ai = nil
+  def smart_mode_off(player)
+    player.smart_ai = nil
+    player.name = "CPU" if player.name == "Smart CPU"
+    player.name = "CPU2" if player.name == "Smart CPU2"
   end
 
   def main_menu
