@@ -9,9 +9,8 @@ class Game
   def initialize
     @computer = ComputerPlayer.new
     @human = HumanPlayer.new
-    @game_speed = 0.01
+    @game_speed = 0.2
     @size = 4
-    @mode = 'd'
   end
 
   def set_options
@@ -21,15 +20,8 @@ class Game
     until (choice == 'd' || choice == 'c' || choice == 'u')
       choice = gets.chomp.downcase
     end
-    if choice == 'd'
-      set_default
-      @mode = 'd'
-    end
-    if choice == 'c'
-      set_classic
-      @mode = 'c'
-    end
-
+    set_default if choice == 'd'
+    set_classic if choice == 'c'
   end
 
   def set_up
@@ -66,10 +58,6 @@ class Game
     print "Enter 'p' to play, enter 'c' to play CPU war, 'q' to quit: "
     user_input = gets.chomp
     user_input.downcase
-    # if user_input == "o"
-    #   set_options
-    #   return 'o'
-    # end
     if user_input == 'c'
         set_human_to_computer
       return 'p'
