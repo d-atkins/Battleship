@@ -2,10 +2,12 @@ require_relative 'ship'
 require_relative 'board'
 
 class ComputerPlayer
-  attr_reader :board, :ships, :size
+  attr_reader :board, :ships, :size, :name
+  attr_accessor :smart_ai
 
-  def initialize(size = 4)
+  def initialize(name)
     @speed = 0.2
+    @name = name
     set_default
   end
 
@@ -55,7 +57,7 @@ class ComputerPlayer
   end
 
   def initial_instructions
-    puts "I am laying out my ships..."
+    puts "#{@name} is placing ships..."
     sleep(1.5)
   end
 
@@ -104,7 +106,7 @@ class ComputerPlayer
   end
 
   def print_board(game_over = false)
-    puts "=============COMPUTER BOARD============="
+    puts "=============#{@name} BOARD============="
     puts @board.render if !game_over
     puts @board.render(true) if game_over
     puts ""
@@ -117,12 +119,14 @@ class ComputerPlayer
 
   def receive_fire(coordinate)
     @board.cells[coordinate].fire_upon
-    print "HUMAN shot at #{coordinate}... "
-    sleep(@speed)
   end
 
   def send_fire
-    @coordinate_guesses.delete(@coordinate_guesses.sample)
+    target = @smart_ai.send_fire if @smart_ai
+    target = @coordinate_guesses.sample if @smart_ai.nil?
+    @coordinate_guesses.delete(target)
+    print "#{name} shot at #{target}... "
+    target
   end
 
 end
