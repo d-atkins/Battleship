@@ -4,7 +4,7 @@ require './lib/smart_computer'
 require_relative 'color_palette'
 
 class Game
-  attr_reader :computer, :human, :smart_computer, :game_speed, :size, :mode
+  # attr_reader :computer, :human, :smart_computer, :size,
 
   def initialize
     @computer = ComputerPlayer.new("CPU")
@@ -23,12 +23,24 @@ class Game
     end
     set_default if choice == 'd'
     set_classic if choice == 'c'
+    puts ""
+    print "Select game speed: '1' for slow, '2' for medium, '3' for fast"\
+      " '4' for hyper, '!' for !?: "
+    choice = gets.chomp.downcase
+    until (choice.length == 1 && "1234!".include?(choice))
+      choice = gets.chomp.downcase
+    end
+    @game_speed = 2 if choice == '1'
+    @game_speed = 1 if choice == '2'
+    @game_speed = 0.3 if choice == '3'
+    @game_speed = 0.1 if choice == '4'
+    @game_speed = 0 if choice == '!'
   end
 
   def set_up
     @human.get_ready
     @smart_computer = SmartComputer.new(@human.board, @human.ships)
-    smart_mode
+    smart_mode_on
     @computer.get_ready
   end
 
@@ -45,15 +57,19 @@ class Game
   end
 
   def set_human_to_computer
-    @human = ComputerPlayer.new("CPU 2")
+    @human = ComputerPlayer.new("CPU2")
   end
 
   def set_human
     @human = HumanPlayer.new("HUMAN")
   end
 
-  def smart_mode
+  def smart_mode_on
     @computer.smart_ai = @smart_computer
+  end
+
+  def smart_mode_off
+    @computer.smart_ai = nil
   end
 
   def main_menu
