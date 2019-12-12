@@ -11,9 +11,15 @@ class SmartComputer
   end
 
   def suggest_coordinate
-    coordinates = find_groups_with_most_hits.flatten
-    guesses = remove_fired_upon_coordinates(coordinates)
-    guesses.uniq.sample
+    coordinates = find_groups_with_most_hits
+    neighbors = find_groups_with_most_hits.map do |row|
+      row.each_cons(2).find do |c1, c2|
+        @opponent_board.cells[c1].render != @opponent_board.cells[c2].render
+      end
+    end.flatten
+    neighbors = coordinates.flatten if neighbors.flatten.compact.empty?
+    guesses = remove_fired_upon_coordinates(neighbors)
+    guesses.sample
   end
 
   def remove_fired_upon_coordinates(coordinates)
@@ -38,6 +44,7 @@ class SmartComputer
       end
     end
     best_guesses
+
   end
 
   def count_hits(group)
@@ -66,7 +73,7 @@ class SmartComputer
   def generate_valid_guesses
     alive_ships = @opponent_ships.find_all { |ship| !ship.sunk?}
     ship_sizes = alive_ships.map { |ship| ship.length }
-    ship_target_size = ship_sizes.min #can be .max for different behavior
+    ship_target_size = ship_sizes.max #can be .max for different behavior
     valid_guesses = []
     options = all_guesses
     options[:horizontal].each do |row|
