@@ -16,7 +16,7 @@ class SmartComputerTest < Minitest::Test
     @smart_cpu = SmartComputer.new(board, ships)
   end
 
-  def test_board
+  def test_it_can_make_a_smart_guess
     @smart_cpu.opponent_board.place(@cruiser, ["B2", "C2", "D2"])
     @smart_cpu.opponent_board.place(@submarine, ["C1", "D1"])
     @smart_cpu.opponent_board.cells["C2"].fire_upon

@@ -2,24 +2,34 @@ require_relative 'ship'
 require_relative 'board'
 
 class HumanPlayer
-  attr_reader :board, :ships, :shots, :size
+  attr_reader :board, :ships, :shots, :size, :name
 
-  def initialize(size = 4)
-    @board = Board.new(size)
-    cruiser = Ship.new("Cruiser", 3)
-    destroyer = Ship.new("Destroyer", 2)
-    @ships = [cruiser, destroyer]
-    @size = 4
+  def initialize(name, size = 4)
+    @name = name
+    set_default
   end
 
   def set_classic
+    @size = 10
     carrier = Ship.new("Carrier", 5)
     battleship = Ship.new("Battleship", 4)
     cruiser = Ship.new("Cruiser", 3)
     submarine = Ship.new("Submarine", 3)
     destroyer = Ship.new("Destroyer", 2)
     @ships = [carrier, battleship, cruiser, submarine, destroyer]
-    @size = 10
+  end
+
+  def set_default
+    @size = 4
+    @board = Board.new(@size)
+    cruiser = Ship.new("Cruiser", 3)
+    destroyer = Ship.new("Destroyer", 2)
+    @ships = [cruiser, destroyer]
+  end
+
+  def set_custom(size, ships)
+    @size = size
+    @ships = ships
   end
 
   def reset
@@ -90,7 +100,7 @@ class HumanPlayer
   end
 
   def print_board
-    puts "==============PLAYER BOARD=============="
+    puts "==============#{name} BOARD=============="
     puts @board.render(true)
     puts ""
   end
@@ -102,23 +112,22 @@ class HumanPlayer
 
   def send_fire
     print "Enter the coordinate for your shot: "
-    user_coor = gets.chomp.upcase
-    until (@board.valid_coordinate?(user_coor) && !@shots.include?(user_coor))
-      if !@board.valid_coordinate?(user_coor)
+    target = gets.chomp.upcase
+    until (@board.valid_coordinate?(target) && !@shots.include?(target))
+      if !@board.valid_coordinate?(target)
         print "Please enter a valid coordinate: "
       else
-        print "You have already fired upon #{user_coor}. Try again: "
+        print "You have already fired upon #{target}. Try again: "
       end
-      user_coor = gets.chomp.upcase
+      target = gets.chomp.upcase
     end
-    @shots << user_coor
-    user_coor
+    @shots << target
+    print "#{name} shot at #{target}... "
+    target
   end
 
-  def receive_fire(coordinate)
-    @board.cells[coordinate].fire_upon
-    print "COMPUTER shot at #{coordinate}... "
-    sleep(2)
+  def receive_fire(target)
+    @board.cells[target].fire_upon
   end
 
 end

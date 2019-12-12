@@ -66,7 +66,7 @@ class SmartComputer
   def generate_valid_guesses
     alive_ships = @opponent_ships.find_all { |ship| !ship.sunk?}
     ship_sizes = alive_ships.map { |ship| ship.length }
-    ship_target_size = ship_sizes.min
+    ship_target_size = ship_sizes.min #can be .max for different behavior
     valid_guesses = []
     options = all_guesses
     options[:horizontal].each do |row|
