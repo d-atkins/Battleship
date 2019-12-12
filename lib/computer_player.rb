@@ -5,7 +5,7 @@ class ComputerPlayer
   attr_reader :board, :ships, :size
 
   def initialize(size = 4)
-    @speed = 0.01
+    @speed = 0.2
     set_default
   end
 
