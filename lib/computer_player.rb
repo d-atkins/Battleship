@@ -5,22 +5,26 @@ class ComputerPlayer
   attr_reader :board, :ships, :size
 
   def initialize(size = 4)
-    @board = Board.new(size)
-    cruiser = Ship.new("Cruiser", 3)
-    destroyer = Ship.new("Destroyer", 2)
-    @ships = [cruiser, destroyer]
-    @size = size
     @speed = 0.01
+    set_default
   end
 
   def set_classic
+    @size = 10
     carrier = Ship.new("Carrier", 5)
     battleship = Ship.new("Battleship", 4)
     cruiser = Ship.new("Cruiser", 3)
     submarine = Ship.new("Submarine", 3)
     destroyer = Ship.new("Destroyer", 2)
     @ships = [carrier, battleship, cruiser, submarine, destroyer]
-    @size = 10
+  end
+
+  def set_default
+    @size = 4
+    @board = Board.new(size)
+    cruiser = Ship.new("Cruiser", 3)
+    destroyer = Ship.new("Destroyer", 2)
+    @ships = [cruiser, destroyer]
   end
 
   def set_custom_board
