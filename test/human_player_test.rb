@@ -1,14 +1,9 @@
 require 'minitest/autorun'
 require 'minitest/pride'
 require_relative '../lib/human_player'
+require './lib/color_palette'
 
 class HumanPlayerTest < Minitest::Test
-
-  def test_things
-    skip
-    human = HumanPlayer.new
-    human.get_ready
-  end
 
   def test_send_fire_gives_valid_coordinate
     human = HumanPlayer.new
@@ -21,6 +16,6 @@ class HumanPlayerTest < Minitest::Test
     assert_equal false, human.board.cells["B2"].fired_upon?
     human.receive_fire("B2")
     assert_equal true, human.board.cells["B2"].fired_upon?
-    assert_equal "M", human.board.cells["B2"].render
+    assert_equal $M, human.board.cells["B2"].render
   end
 end

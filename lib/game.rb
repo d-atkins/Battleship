@@ -4,11 +4,35 @@ require './lib/smart_computer'
 require_relative 'color_palette'
 
 class Game
-  attr_reader :computer, :human, :smart_computer
+  attr_reader :computer, :human, :smart_computer, :game_speed, :size, :mode
 
   def initialize
     @computer = ComputerPlayer.new
     @human = HumanPlayer.new
+    @game_speed = 0.01
+    @size = 4
+    @mode = 'd'
+    run
+  end
+
+  def set_options
+    puts ""
+    puts "Enter 'd' for default (4x4)."
+    puts "Enter 'c' for classic (10x10)."
+    print "Enter 'u' for custom board:"
+    choice = gets.chomp.downcase
+    until (choice == 'd' || choice == 'c' || choice == 'u')
+      choice = gets.chomp.downcase
+    end
+    if choice == 'd'
+      set_default
+      @mode = 'd'
+    end
+    if choice == 'c'
+      set_classic
+      @mode = 'c'
+    end
+
   end
 
   def set_up
@@ -17,14 +41,53 @@ class Game
     @smart_computer = SmartComputer.new(@human.board, @human.ships)
   end
 
+  def set_default
+    @size = 4
+    @computer = ComputerPlayer.new
+    @human = HumanPlayer.new
+  end
+
+  def set_classic
+    @size = 10
+    @computer.set_classic
+    @human.set_classic
+  end
+
+  def set_human_to_computer
+    @human = ComputerPlayer.new(@size)
+    @human.set_classic if @mode == 'c'
+  end
+
+  def set_human
+    size = @human.size
+    @human = HumanPlayer.new(size)
+    @human.set_classic if @mode == 'c'
+  end
+
   def main_menu
     system("clear")
     print_radical_title
     puts "Welcome to " + $white_bold + "BATTLESHIP!" + $color_restore
     puts ""
-    print "Enter 'p' to play. Enter 'q' to quit. "
+    puts "Enter 'p' to play."
+    puts "Enter 'c' to play CPU war."
+    puts "Enter 'o' for options."
+    print "Enter 'q' to quit:"
     user_input = gets.chomp
     user_input.downcase
+    if user_input == "o"
+      set_options
+      return 'o'
+    end
+    if user_input == 'c'
+        set_human_to_computer
+      return 'p'
+    end
+    if user_input == 'p'
+        set_human
+      return 'p'
+    end
+    user_input
   end
 
   def take_turn(attacker, defender)
@@ -39,7 +102,7 @@ class Game
     print $hit if char == $H
     print $miss if char == $M
     print $sunk if char == $X
-    sleep(2)
+    sleep(@game_speed)
   end
 
   def game_over?

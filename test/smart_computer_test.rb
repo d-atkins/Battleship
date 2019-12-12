@@ -13,7 +13,6 @@ class SmartComputerTest < Minitest::Test
     @submarine = Ship.new("Submarine", 2)
     ships = [@cruiser, @submarine]
     board = Board.new
-
     @smart_cpu = SmartComputer.new(board, ships)
   end
 
@@ -23,7 +22,9 @@ class SmartComputerTest < Minitest::Test
     @smart_cpu.opponent_board.cells["C2"].fire_upon
     @smart_cpu.opponent_board.cells["C3"].fire_upon
     @smart_cpu.opponent_board.cells["C1"].fire_upon
-    @smart_cpu.send_fire
+    possibilities = ["B1", "B2", "D1", "D2"]
+
+    assert possibilities.include?(@smart_cpu.send_fire)
   end
 
   # def test_it
