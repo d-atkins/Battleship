@@ -2,8 +2,8 @@ require_relative 'ship'
 require_relative 'board'
 
 class ComputerPlayer
-  attr_reader :board, :ships, :size, :name
-  attr_accessor :smart_ai
+  attr_reader :board, :ships, :size
+  attr_accessor :smart_ai, :name
 
   def initialize(name)
     @speed = 0.2
