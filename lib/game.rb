@@ -12,14 +12,11 @@ class Game
     @game_speed = 0.01
     @size = 4
     @mode = 'd'
-    run
   end
 
   def set_options
     puts ""
-    puts "Enter 'd' for default (4x4)."
-    puts "Enter 'c' for classic (10x10)."
-    print "Enter 'u' for custom board:"
+    print "Enter 'd' for default (4x4), 'c' for classic (10x10), 'u' for custom board:"
     choice = gets.chomp.downcase
     until (choice == 'd' || choice == 'c' || choice == 'u')
       choice = gets.chomp.downcase
@@ -43,8 +40,8 @@ class Game
 
   def set_default
     @size = 4
-    @computer = ComputerPlayer.new
-    @human = HumanPlayer.new
+    @computer.set_default
+    @human.set_default
   end
 
   def set_classic
@@ -54,14 +51,11 @@ class Game
   end
 
   def set_human_to_computer
-    @human = ComputerPlayer.new(@size)
-    @human.set_classic if @mode == 'c'
+    @human = ComputerPlayer.new
   end
 
   def set_human
-    size = @human.size
-    @human = HumanPlayer.new(size)
-    @human.set_classic if @mode == 'c'
+    @human = HumanPlayer.new
   end
 
   def main_menu
@@ -69,16 +63,13 @@ class Game
     print_radical_title
     puts "Welcome to " + $white_bold + "BATTLESHIP!" + $color_restore
     puts ""
-    puts "Enter 'p' to play."
-    puts "Enter 'c' to play CPU war."
-    puts "Enter 'o' for options."
-    print "Enter 'q' to quit:"
+    print "Enter 'p' to play, enter 'c' to play CPU war, 'q' to quit: "
     user_input = gets.chomp
     user_input.downcase
-    if user_input == "o"
-      set_options
-      return 'o'
-    end
+    # if user_input == "o"
+    #   set_options
+    #   return 'o'
+    # end
     if user_input == 'c'
         set_human_to_computer
       return 'p'
@@ -124,7 +115,9 @@ class Game
   def run
     choice = main_menu
     until (choice == "q")
-      if choice == "p"
+      if choice == "p" || choice == "c"
+        set_options
+        puts ""
         set_up
         until game_over?
           take_turn(@human, @computer)
