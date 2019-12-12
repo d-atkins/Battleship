@@ -2,7 +2,8 @@ require_relative 'ship'
 require_relative 'board'
 
 class HumanPlayer
-  attr_reader :board, :ships, :shots, :size, :name
+  attr_reader :board, :ships, :shots, :size
+  attr_accessor :name
 
   def initialize(name, size = 4)
     @name = name

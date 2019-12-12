@@ -18,4 +18,5 @@ class HumanPlayerTest < Minitest::Test
     assert_equal true, human.board.cells["B2"].fired_upon?
     assert_equal $M, human.board.cells["B2"].render
   end
+  
 end
