@@ -2,9 +2,10 @@ require_relative 'ship'
 require_relative 'board'
 
 class HumanPlayer
-  attr_reader :board, :ships, :shots, :size
+  attr_reader :board, :ships, :shots, :size, :name
 
-  def initialize(size = 4)
+  def initialize(name, size = 4)
+    @name = name
     set_default
   end
 
@@ -116,13 +117,13 @@ class HumanPlayer
       user_coor = gets.chomp.upcase
     end
     @shots << user_coor
+
     user_coor
   end
 
   def receive_fire(coordinate)
     @board.cells[coordinate].fire_upon
-    print "COMPUTER shot at #{coordinate}... "
-    sleep(2)
+    print "#{name} shot at #{target}... "
   end
 
 end
